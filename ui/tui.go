@@ -2,7 +2,7 @@ package ui
 
 import (
 	"fmt"
-	"go-udp-study/parser"
+	"sniffie/parser"
 
 	"github.com/gdamore/tcell/v2"
 	"github.com/rivo/tview"

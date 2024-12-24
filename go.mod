@@ -1,4 +1,4 @@
-module go-udp-study
+module sniffie
 
 go 1.23.0
 

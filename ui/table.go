@@ -2,7 +2,7 @@ package ui
 
 import (
 	"fmt"
-	"go-udp-study/parser"
+	"sniffie/parser"
 	"strconv"
 	"time"
 

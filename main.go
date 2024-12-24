@@ -1,10 +1,9 @@
 /*
 Copyright © 2024 NAME HERE <EMAIL ADDRESS>
-
 */
 package main
 
-import "go-udp-study/cmd"
+import "sniffie/cmd"
 
 func main() {
 	cmd.Execute()

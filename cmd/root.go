@@ -5,10 +5,10 @@ package cmd
 
 import (
 	"fmt"
-	"go-udp-study/parser"
-	"go-udp-study/ui"
 	"net"
 	"os"
+	"sniffie/parser"
+	"sniffie/ui"
 
 	log "github.com/sirupsen/logrus"
 
@@ -32,19 +32,11 @@ to quickly create a Cobra application.`,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
 	// Run: func(cmd *cobra.Command, args []string) { },
-	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("Mark using `MarkPersistentFlagRequired` ")
-	},
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
 // This is called by main.main(). It only needs to happen once to the rootCmd.
 func Execute() {
-	if err := rootCmd.MarkPersistentFlagRequired("inet"); err != nil {
-		fmt.Println(err.Error())
-		return
-	}
-
 	err := rootCmd.Execute()
 	if err != nil {
 		os.Exit(1)
@@ -52,21 +44,19 @@ func Execute() {
 }
 
 func init() {
-	// Here you will define your flags and configuration settings.
-	// Cobra supports persistent flags, which, if defined here,
-	// will be global for your application.
+	var storage string
+	var pcapName string
 
-	// rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.go-udp-study.yaml)")
-
-	// Cobra also supports local flags, which will only run
-	// when this action is called directly.
-	// rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 	var inet string
 	var output string
+
+	rootCmd.PersistentFlags().StringVarP(&storage, "storage", "s", "", "Where to store packets. Options: memory, pcap")
+	rootCmd.PersistentFlags().StringVarP(&pcapName, "pcap-file-name", "f", "./sniffie.pcap", ".pcap filename. Default: sniffie.pcap")
 
 	rootCmd.PersistentFlags().StringVarP(&inet, "inet", "i", "en0", "Network interface. Default: en0")
 	rootCmd.PersistentFlags().StringVarP(&output, "output", "o", "table", "Sniff output. Options: table,json")
 
+	rootCmd.MarkPersistentFlagRequired("storage")
 	rootCmd.MarkPersistentFlagRequired("inet")
 	rootCmd.MarkPersistentFlagRequired("output")
 
