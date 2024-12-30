@@ -9,6 +9,11 @@ import (
 
 type DNSParserConfig struct {
 	Iface string
+	Opts  *DNSParserConfigOpts
+}
+
+type DNSParserConfigOpts struct {
+	ResolvePodNames bool
 }
 
 // DNSParser will return formatted DNS packages from raw network sniff
@@ -17,6 +22,7 @@ type DNSParser interface {
 	TCP(packet gopacket.Packet) (r DNSRequest, skip bool, err error)
 }
 
+// UDP will return a UDP DNS request packet from a raw Packet
 func (d *DNSParserConfig) UDP(packet gopacket.Packet) (r DNSRequest, skip bool, err error) {
 
 	layer := packet.Layer(layers.LayerTypeDNS)
@@ -65,21 +71,10 @@ func (d *DNSParserConfig) UDP(packet gopacket.Packet) (r DNSRequest, skip bool, 
 	return r, false, err
 }
 
+// TCP will return a TCP DNS request packet from a raw Packet
 func (d *DNSParserConfig) TCP(packet gopacket.Packet) (r DNSRequest, skip bool, err error) {
 
-	// tcpLayer := packet.Layer(layers.LayerTypeTCP)
-	// if tcpLayer != nil {
-	// 	tcp, _ := tcpLayer.(*layers.TCP)
-	// 	fmt.Println(string(tcp.Payload))
-	// 	fmt.Println(tcp.TransportFlow().Dst().String())
-
-	// 	// TCP layer variables:
-	// 	// SrcPort, DstPort, Seq, Ack, DataOffset, Window, Checksum, Urgent
-	// 	// Bool flags: FIN, SYN, RST, PSH, ACK, URG, ECE, CWR, NS
-	// 	// fmt.Printf("From port %d to %d\n", tcp.SrcPort, tcp.DstPort)
-	// 	// fmt.Println("Sequence number: ", tcp.Seq)
-	// 	// fmt.Println()
-	// }
+	// NOT IMPLEMENTED
 
 	return DNSRequest{}, false, nil
 }
